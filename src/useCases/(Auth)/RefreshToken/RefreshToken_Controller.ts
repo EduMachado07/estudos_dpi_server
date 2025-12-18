@@ -20,14 +20,14 @@ export class RefreshTokenController {
       res.cookie("accessToken", token.accessToken, {
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
+        sameSite: "none",
         maxAge: 1000 * 60 * 15, // 15 minutos
       });
 
       res.cookie("refreshToken", token.refreshToken, {
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
+        sameSite: "none",
         maxAge: 1000 * 60 * 60 * 24 * 7, // 7 dias
       });
 
