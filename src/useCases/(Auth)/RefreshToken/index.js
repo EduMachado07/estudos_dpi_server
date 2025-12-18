@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.refreshTokenUseCase = exports.refreshTokenController = void 0;
+const TokenRepository_1 = require("../../../repositories/implementations/TokenRepository");
+const RefreshToken_Controller_1 = require("./RefreshToken_Controller");
+const RefreshToken_UseCase_1 = require("./RefreshToken_UseCase");
+const tokenRepository = new TokenRepository_1.TokensRepository();
+const refreshTokenUseCase = new RefreshToken_UseCase_1.RefreshTokenUseCase(tokenRepository);
+exports.refreshTokenUseCase = refreshTokenUseCase;
+const refreshTokenController = new RefreshToken_Controller_1.RefreshTokenController(refreshTokenUseCase);
+exports.refreshTokenController = refreshTokenController;

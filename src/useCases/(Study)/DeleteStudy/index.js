@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteStudyController = void 0;
+const DeleteStudy_Controller_1 = require("./DeleteStudy_Controller");
+const DeleteStudy_UseCase_1 = require("./DeleteStudy_UseCase");
+const CloudinaryUploadImageProvider_1 = require("../../../providers/implementations/CloudinaryUploadImageProvider");
+const PostgresStudyRepository_1 = require("../../../repositories/implementations/PostgresStudyRepository");
+const mockStudyRepository = new PostgresStudyRepository_1.PostgresStudyRepository();
+const uploadThumbnail = new CloudinaryUploadImageProvider_1.CloudinaryProvider();
+const deleteStudyUseCase = new DeleteStudy_UseCase_1.DeleteStudyUseCase(mockStudyRepository, uploadThumbnail);
+const deleteStudyController = new DeleteStudy_Controller_1.DeleteStudyController(deleteStudyUseCase);
+exports.deleteStudyController = deleteStudyController;

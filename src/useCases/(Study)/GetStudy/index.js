@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getStudyByIdController = exports.getStudyController = void 0;
+// import { MockStudyRepository } from "../../../repositories/implementations/MockStudyRepository";
+const PostgresStudyRepository_1 = require("../../../repositories/implementations/PostgresStudyRepository");
+const GetStudy_Controller_1 = require("./GetStudy_Controller");
+const GetStudy_UseCase_1 = require("./GetStudy_UseCase");
+const studyRepository = new PostgresStudyRepository_1.PostgresStudyRepository();
+const getStudyUseCase = new GetStudy_UseCase_1.GetStudyUseCase(studyRepository);
+const getStudyByIdUseCase = new GetStudy_UseCase_1.GetStudyBySlugUseCase(studyRepository);
+const getStudyController = new GetStudy_Controller_1.GetStudyController(getStudyUseCase);
+exports.getStudyController = getStudyController;
+const getStudyByIdController = new GetStudy_Controller_1.GetStudyBySlugController(getStudyByIdUseCase);
+exports.getStudyByIdController = getStudyByIdController;

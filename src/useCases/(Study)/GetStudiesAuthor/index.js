@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getStudiesAuthorController = void 0;
+const PostgresStudyRepository_1 = require("../../../repositories/implementations/PostgresStudyRepository");
+const GetStudiesAuthor_Controller_1 = require("./GetStudiesAuthor_Controller");
+const GetStudiesAuthor_UseCase_1 = require("./GetStudiesAuthor_UseCase");
+const studiesRepository = new PostgresStudyRepository_1.PostgresStudyRepository();
+const getStudiesAuthorUseCase = new GetStudiesAuthor_UseCase_1.GetStudiesAuthorUseCase(studiesRepository);
+const getStudiesAuthorController = new GetStudiesAuthor_Controller_1.GetStudiesAuthorController(getStudiesAuthorUseCase);
+exports.getStudiesAuthorController = getStudiesAuthorController;

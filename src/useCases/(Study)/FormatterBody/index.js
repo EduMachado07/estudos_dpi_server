@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.formatterBodyUseCase = exports.formatterBodyController = void 0;
+const FormatterBody_Controller_1 = require("./FormatterBody_Controller");
+const GroqProvider_1 = require("../../../providers/implementations/GroqProvider");
+const FormatterBody_UseCase_1 = require("./FormatterBody_UseCase");
+const groqProvider = new GroqProvider_1.GroqProvider();
+const formatterBodyUseCase = new FormatterBody_UseCase_1.FormatterBodyUseCase(groqProvider);
+exports.formatterBodyUseCase = formatterBodyUseCase;
+const formatterBodyController = new FormatterBody_Controller_1.FormatterBodyController(formatterBodyUseCase);
+exports.formatterBodyController = formatterBodyController;
