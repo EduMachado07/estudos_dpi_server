@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules -r dotenv/config src/server.ts",
-    "build": "tsc",
-    "start": "npm run build && node src/server.js"
+    "build": "prisma generate && tsc",
+    "dev": "tsnd --transpile-only --respawn -r dotenv/config src/server.ts",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
