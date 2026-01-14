@@ -2,7 +2,7 @@
 // import { MockUserRepository } from "../../../repositories/implementations/MockUserRepository";
 import { CreateStudyController } from "./CreateStudy_Controller";
 import { CreateStudyUseCase } from "./CreateStudy_UseCase";
-import { CloudinaryProvider} from "../../../providers/implementations/CloudinaryUploadImageProvider";
+import { CloudinaryProvider} from "../../../providers/implementations/CloudinaryUploadFileProvider";
 import { PostgresUserRepository } from "../../../repositories/implementations/PostgresUserRepository";
 import { PostgresStudyRepository } from "../../../repositories/implementations/PostgresStudyRepository";
 
@@ -13,9 +13,10 @@ import { PostgresStudyRepository } from "../../../repositories/implementations/P
 const userRepository = new PostgresUserRepository();
 const studyRepository = new PostgresStudyRepository();
 const uploadThumbnail = new CloudinaryProvider()
+const uploadVideo = new CloudinaryProvider();
 
 // Instancia Use Case
-const createStudyUseCase = new CreateStudyUseCase(studyRepository, userRepository, uploadThumbnail);
+const createStudyUseCase = new CreateStudyUseCase(studyRepository, userRepository, uploadThumbnail, uploadVideo);
 // Instancia Controller
 const createStudyController = new CreateStudyController(createStudyUseCase);
 

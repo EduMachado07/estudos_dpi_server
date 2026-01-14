@@ -17,7 +17,10 @@ class DeleteStudyUseCase {
         if (studyExists.authorId !== data.authorId) {
             throw new IErrorRepository_1.Unauthorized("Você não tem permissão para excluir este estudo");
         }
-        await this.uploadThumbnail.destroy(studyExists.thumbnailId);
+        await this.uploadThumbnail.destroy(studyExists.thumbnailId, "image");
+        if (studyExists.videoId) {
+            await this.uploadThumbnail.destroy(studyExists.videoId, "video");
+        }
         await this.studiesRepository.deleteById(data.id);
         return;
     }

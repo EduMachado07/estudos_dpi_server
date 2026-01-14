@@ -1,5 +1,5 @@
 import { Study } from "../../../entities/Study";
-import { CloudinaryProvider } from "../../../providers/implementations/CloudinaryUploadImageProvider";
+import { IUploadFile } from "../../../providers/IUploadFile";
 import { NotFound } from "../../../repositories/IErrorRepository";
 import { IStudyRepository } from "../../../repositories/IStudyRepository";
 import { IUserRepository } from "../../../repositories/IUserRepository";
@@ -9,10 +9,15 @@ export class CreateStudyUseCase {
   constructor(
     private studyRepository: IStudyRepository,
     private userRepository: IUserRepository,
-    private uploadThumbnail: CloudinaryProvider
+    private uploadThumbnail: IUploadFile,
+    private uploadVideo: IUploadFile,
   ) {}
 
-  async execute(data: ICreateStudyDTO, thumbnail: Buffer): Promise<Study> {
+  async execute(
+    data: ICreateStudyDTO,
+    thumbnail: Buffer,
+    video?: Buffer
+  ): Promise<Study> {
     const userAlreadyExists = await this.userRepository.FindUserById(
       data.authorId
     );
@@ -26,9 +31,18 @@ export class CreateStudyUseCase {
       data.title
     );
 
-    const readingTime = await this.studyRepository.setReadingTime(data.body)
+    const readingTime = await this.studyRepository.setReadingTime(data.body);
 
-    const newThumbnail = await this.uploadThumbnail.uploadStream(thumbnail);
+    const newThumbnail = await this.uploadThumbnail.uploadStream(thumbnail, {
+      resourceType: "image",
+      folder: "studies_thumbmnails",
+    });
+    const newVideo = video
+      ? await this.uploadVideo.uploadStream(video, {
+          resourceType: "video",
+          folder: "studies_videos",
+        })
+      : null;
 
     const { authorId, ...rest } = data;
     const study = new Study({
@@ -39,6 +53,8 @@ export class CreateStudyUseCase {
       // authorName: userAlreadyExists.name,
       thumbnailUrl: newThumbnail.url,
       thumbnailId: newThumbnail.id,
+      videoUrl: newVideo.url,
+      videoId: newVideo.id,
     });
 
     const newStudy = await this.studyRepository.create(study);

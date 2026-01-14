@@ -17,11 +17,18 @@ export class UpdateStudyController {
         authorId: req.authorId,
         ...req.body,
       });
-      const thumbnail = req.file?.buffer;
+      const files = req.files as {
+        thumbnail?: Express.Multer.File[];
+        video?: Express.Multer.File[];
+      };
+
+      const thumbnail = files.thumbnail?.[0]?.buffer;
+      const video = files.video?.[0]?.buffer;
 
       const studyUpdated = await this.updateStudyUseCase.execute(
         data,
-        thumbnail
+        thumbnail,
+        video
       );
 
       return res

@@ -1,9 +1,9 @@
 import "dotenv/config";
-import express from "express";
+import express, { Request, Response } from "express";
 import { router } from "./routes";
-import { ErrorProcessing } from "./repositories/implementations/ErrorRepository";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { ErrorProcessing } from "./repositories/implementations/ErrorRepository";
 
 const app = express();
 
@@ -17,11 +17,10 @@ app.use(
 );
 
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cookieParser());
 
-app.use(router); // arquivo com as rotas
+app.use(router);
 
-app.use(ErrorProcessing); // middleware de erro
+app.use(ErrorProcessing);
 
 export { app };

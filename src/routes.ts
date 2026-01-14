@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
-import { upload } from "./providers/MulterConfig";
+import { multerConfig } from "./providers/MulterConfig";
 import { registerUserController } from "./useCases/(User)/RegisterUser";
 import { loginUserController } from "./useCases/(Auth)/LoginUser";
 import { createStudyController } from "./useCases/(Study)/CreateStudy";
@@ -35,12 +35,6 @@ router.get("/study", (req: Request, res: Response, next: NextFunction) => {
   return getStudyController.handle(req, res, next);
 });
 router.get(
-  "/study/:user/:slug",
-  (req: Request, res: Response, next: NextFunction) => {
-    return getStudyByIdController.handle(req, res, next);
-  }
-);
-router.get(
   "/study/author",
   authAuthorMiddleware.handle,
   (req: Request, res: Response, next: NextFunction) => {
@@ -49,10 +43,32 @@ router.get(
 );
 router.post(
   "/study",
-  upload.single("thumbnail"),
+  multerConfig.fields([
+    { name: "thumbnail", maxCount: 1 },
+    { name: "video", maxCount: 1 },
+  ]),
   authAuthorMiddleware.handle,
   (req: Request, res: Response, next: NextFunction) => {
     return createStudyController.handle(req, res, next);
+  }
+);
+
+
+router.get(
+  "/study/:user/:slug",
+  (req: Request, res: Response, next: NextFunction) => {
+    return getStudyByIdController.handle(req, res, next);
+  }
+);
+router.patch(
+  "/study/:id",
+  multerConfig.fields([
+    { name: "thumbnail", maxCount: 1 },
+    { name: "video", maxCount: 1 },
+  ]),
+  authAuthorMiddleware.handle,
+  (req: Request, res: Response, next: NextFunction) => {
+    return updateStudyController.handle(req, res, next);
   }
 );
 router.delete(
@@ -60,14 +76,6 @@ router.delete(
   authAuthorMiddleware.handle,
   (req: Request, res: Response, next: NextFunction) => {
     return deleteStudyController.handle(req, res, next);
-  }
-);
-router.patch(
-  "/study/:id",
-  upload.single("thumbnail"),
-  authAuthorMiddleware.handle,
-  (req: Request, res: Response, next: NextFunction) => {
-    return updateStudyController.handle(req, res, next);
   }
 );
 router.post(

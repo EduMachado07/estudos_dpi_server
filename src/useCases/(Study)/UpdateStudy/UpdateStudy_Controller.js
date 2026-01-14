@@ -20,8 +20,10 @@ class UpdateStudyController {
                 authorId: req.authorId,
                 ...req.body,
             });
-            const thumbnail = req.file?.buffer;
-            const studyUpdated = await this.updateStudyUseCase.execute(data, thumbnail);
+            const files = req.files;
+            const thumbnail = files.thumbnail?.[0]?.buffer;
+            const video = files.video?.[0]?.buffer;
+            const studyUpdated = await this.updateStudyUseCase.execute(data, thumbnail, video);
             return res
                 .status(200)
                 .json({ message: "Estudo alterado com sucesso.", studyUpdated });

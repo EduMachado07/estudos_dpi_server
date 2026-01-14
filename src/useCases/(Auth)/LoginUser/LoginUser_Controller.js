@@ -19,13 +19,13 @@ class LoginUserController {
             res.cookie("accessToken", user.accessToken, {
                 httpOnly: true,
                 secure: true,
-                sameSite: "strict",
+                sameSite: "none",
                 maxAge: 1000 * 60 * 15, // 15 minutos
             });
             res.cookie("refreshToken", user.refreshToken, {
                 httpOnly: true,
                 secure: true,
-                sameSite: "strict",
+                sameSite: "none",
                 maxAge: 1000 * 60 * 60 * 24 * 7, // 7 dias
             });
             return res.status(200).json({ message: 'Usuário entrou no sistema.', author: user.author });

@@ -42,6 +42,8 @@ class PostgresStudyRepository {
                 readingTime: data.readingTime,
                 createdAt: data.createdAt,
                 updatedAt: data.updatedAt,
+                videoId: data.videoId,
+                videoUrl: data.videoUrl,
             },
         });
         return study;

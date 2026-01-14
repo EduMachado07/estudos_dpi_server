@@ -1,6 +1,6 @@
 import { DeleteStudyController } from "./DeleteStudy_Controller";
 import { DeleteStudyUseCase } from "./DeleteStudy_UseCase";
-import { CloudinaryProvider } from "../../../providers/implementations/CloudinaryUploadImageProvider";
+import { CloudinaryProvider } from "../../../providers/implementations/CloudinaryUploadFileProvider";
 import { PostgresStudyRepository } from "../../../repositories/implementations/PostgresStudyRepository";
 
 

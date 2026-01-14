@@ -17,13 +17,19 @@ export class CreateStudyController {
         ...req.body,
         authorId: req.authorId,
       });
-      const thumbnail = req.file?.buffer;
+      const files = req.files as {
+        thumbnail?: Express.Multer.File[];
+        video?: Express.Multer.File[];
+      };
+
+      const thumbnail = files.thumbnail?.[0]?.buffer;
+      const video = files.video?.[0]?.buffer;
 
       if (!thumbnail) {
         throw new BadRequest("Thumbnail não informada");
       }
 
-      const study = await this.createStudyUseCase.execute(data, thumbnail);
+      const study = await this.createStudyUseCase.execute(data, thumbnail, video);
 
       return res
         .status(201)

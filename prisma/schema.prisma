@@ -14,12 +14,12 @@ enum Role {
 }
 
 model User {
-  id       String @id @default(uuid())
+  id       String  @id @default(uuid())
   name     String
-  email    String @unique
+  email    String  @unique
   password String
   role     Role
-  studies   Study[]  @relation("UserStudies")
+  studies  Study[] @relation("UserStudies")
 
   @@map("Users")
 }
@@ -30,6 +30,8 @@ model Study {
   description  String
   thumbnailId  String   @map("thumbnail_id")
   thumbnailUrl String   @map("thumbnail_url")
+  videoId      String?  @map("video_id")
+  videoUrl     String?  @map("video_url")
   body         String
   tag          String
   slug         String   @unique

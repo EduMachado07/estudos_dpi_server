@@ -7,6 +7,8 @@ export class Study {
   public description: string;
   public thumbnailId: string;
   public thumbnailUrl: string;
+  public videoId: string;
+  public videoUrl: string;
   public body: string;
   public authorId: string;
   // public authorName: string;

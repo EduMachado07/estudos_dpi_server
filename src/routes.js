@@ -36,20 +36,26 @@ router.post("/refresh", (req, res) => {
 router.get("/study", (req, res, next) => {
     return GetStudy_1.getStudyController.handle(req, res, next);
 });
-router.get("/study/:user/:slug", (req, res, next) => {
-    return GetStudy_1.getStudyByIdController.handle(req, res, next);
-});
 router.get("/study/author", AuthAuthor_1.authAuthorMiddleware.handle, (req, res, next) => {
     return GetStudiesAuthor_1.getStudiesAuthorController.handle(req, res, next);
 });
-router.post("/study", MulterConfig_1.upload.single("thumbnail"), AuthAuthor_1.authAuthorMiddleware.handle, (req, res, next) => {
+router.post("/study", MulterConfig_1.multerConfig.fields([
+    { name: "thumbnail", maxCount: 1 },
+    { name: "video", maxCount: 1 },
+]), AuthAuthor_1.authAuthorMiddleware.handle, (req, res, next) => {
     return CreateStudy_1.createStudyController.handle(req, res, next);
+});
+router.get("/study/:user/:slug", (req, res, next) => {
+    return GetStudy_1.getStudyByIdController.handle(req, res, next);
+});
+router.patch("/study/:id", MulterConfig_1.multerConfig.fields([
+    { name: "thumbnail", maxCount: 1 },
+    { name: "video", maxCount: 1 },
+]), AuthAuthor_1.authAuthorMiddleware.handle, (req, res, next) => {
+    return UpdateStudy_1.updateStudyController.handle(req, res, next);
 });
 router.delete("/study/:id", AuthAuthor_1.authAuthorMiddleware.handle, (req, res, next) => {
     return DeleteStudy_1.deleteStudyController.handle(req, res, next);
-});
-router.patch("/study/:id", MulterConfig_1.upload.single("thumbnail"), AuthAuthor_1.authAuthorMiddleware.handle, (req, res, next) => {
-    return UpdateStudy_1.updateStudyController.handle(req, res, next);
 });
 router.post("/study/formatter", AuthAuthor_1.authAuthorMiddleware.handle, (req, res, next) => {
     return FormatterBody_1.formatterBodyController.handle(req, res, next);

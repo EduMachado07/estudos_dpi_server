@@ -7,6 +7,7 @@ export const UpdateStudySchema = z.object({
   body: z.string().optional(),
   description: z.string().optional(),
   tag: z.string().optional(),
+  removeVideo: z.coerce.boolean().optional(),
 });
 
 export type IUpdateStudyDTO = z.infer<typeof UpdateStudySchema>;

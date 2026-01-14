@@ -9,6 +9,8 @@ class Study {
     description;
     thumbnailId;
     thumbnailUrl;
+    videoId;
+    videoUrl;
     body;
     authorId;
     // public authorName: string;

@@ -9,4 +9,5 @@ exports.UpdateStudySchema = zod_1.z.object({
     body: zod_1.z.string().optional(),
     description: zod_1.z.string().optional(),
     tag: zod_1.z.string().optional(),
+    removeVideo: zod_1.z.coerce.boolean().optional(),
 });
