@@ -40,8 +40,8 @@ class CreateStudyUseCase {
             // authorName: userAlreadyExists.name,
             thumbnailUrl: newThumbnail.url,
             thumbnailId: newThumbnail.id,
-            videoUrl: newVideo.url,
-            videoId: newVideo.id,
+            videoUrl: newVideo?.url ?? null,
+            videoId: newVideo?.id ?? null,
         });
         const newStudy = await this.studyRepository.create(study);
         return newStudy;

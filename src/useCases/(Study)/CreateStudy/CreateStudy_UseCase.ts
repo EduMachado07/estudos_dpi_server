@@ -10,7 +10,7 @@ export class CreateStudyUseCase {
     private studyRepository: IStudyRepository,
     private userRepository: IUserRepository,
     private uploadThumbnail: IUploadFile,
-    private uploadVideo: IUploadFile,
+    private uploadVideo: IUploadFile
   ) {}
 
   async execute(
@@ -53,8 +53,8 @@ export class CreateStudyUseCase {
       // authorName: userAlreadyExists.name,
       thumbnailUrl: newThumbnail.url,
       thumbnailId: newThumbnail.id,
-      videoUrl: newVideo.url,
-      videoId: newVideo.id,
+      videoUrl: newVideo?.url ?? null,
+      videoId: newVideo?.id ?? null,
     });
 
     const newStudy = await this.studyRepository.create(study);
