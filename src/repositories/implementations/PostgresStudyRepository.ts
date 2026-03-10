@@ -1,6 +1,6 @@
 import { Study } from "../../entities/Study";
 import { BadRequest } from "../IErrorRepository";
-import { IStudyRepository } from "../IStudyRepository";
+import { IStudyRepository, StudyListItem } from "../IStudyRepository";
 import { PrismaClient } from "@prisma/client";
 
 export const prisma = new PrismaClient();
@@ -56,17 +56,35 @@ export class PostgresStudyRepository implements IStudyRepository {
   }
   async findStudies(
     offset: number,
-    limit: number
-  ): Promise<{ studies: Study[]; length: number }> {
+    limit: number,
+  ): Promise<{ studies: StudyListItem[]; length: number }> {
+    // console.time("query");
+
     const [studies, length] = await Promise.all([
       prisma.study.findMany({
         skip: offset,
         take: limit,
         orderBy: { createdAt: "desc" },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          thumbnailUrl: true,
+          createdAt: true,
+          slug: true,
+          tag: true,
+          author: {
+            select: {
+              name: true,
+            },
+          },
+        },
       }),
       prisma.study.count(),
     ]);
 
+    // console.timeEnd("query");
+    
     return { studies, length };
   }
   async findById(id: string): Promise<Study | null> {
@@ -90,7 +108,7 @@ export class PostgresStudyRepository implements IStudyRepository {
   async findStudiesByAuthorId(
     authorId: string,
     offset: number,
-    limit: number
+    limit: number,
   ): Promise<{ studies: Study[]; length: number }> {
     const [studies, length] = await Promise.all([
       prisma.study.findMany({

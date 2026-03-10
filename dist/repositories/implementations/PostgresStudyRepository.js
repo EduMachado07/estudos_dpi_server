@@ -49,14 +49,30 @@ class PostgresStudyRepository {
         return study;
     }
     async findStudies(offset, limit) {
+        // console.time("query");
         const [studies, length] = await Promise.all([
             exports.prisma.study.findMany({
                 skip: offset,
                 take: limit,
                 orderBy: { createdAt: "desc" },
+                select: {
+                    id: true,
+                    title: true,
+                    description: true,
+                    thumbnailUrl: true,
+                    createdAt: true,
+                    slug: true,
+                    tag: true,
+                    author: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                },
             }),
             exports.prisma.study.count(),
         ]);
+        // console.timeEnd("query");
         return { studies, length };
     }
     async findById(id) {
